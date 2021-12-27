@@ -1,6 +1,7 @@
 import asciiPanel.AsciiFont;
 import asciiPanel.AsciiPanel;
 import com.anish.mycreatures.World;
+import com.anish.screen.BeginScreen;
 import com.anish.screen.FightScreen;
 import com.anish.screen.Screen;
 
@@ -20,8 +21,8 @@ public class Main extends JFrame implements KeyListener,Runnable
         terminal = new AsciiPanel(World.WIDTH, World.HEIGHT, AsciiFont.TALRYTH_15_15);
         add(terminal);
         pack();
-        screen = new FightScreen();
-        new Thread((FightScreen)screen).start();
+        screen = new BeginScreen();
+//        new Thread((FightScreen)screen).start();
         addKeyListener(this);
         repaint();
     }
@@ -44,6 +45,10 @@ public class Main extends JFrame implements KeyListener,Runnable
     public void keyPressed(KeyEvent e)
     {
         screen = screen.respondToUserInput(e);
+        if(screen instanceof FightScreen)
+        {
+            new Thread((FightScreen)screen).start();
+        }
         repaint();
     }
 

@@ -16,7 +16,7 @@ import java.awt.*;
 public class Bullet extends Thing implements Runnable
 {
     private int life = 20;
-    private Direction direction;
+    public Direction direction;
     public Bullet(World world)
     {
         super(Color.magenta, (char)249, world);
@@ -49,7 +49,7 @@ public class Bullet extends Thing implements Runnable
         }
         world.put(new Floor(world), this.getX(), this.getY());
     }
-    private void isCountWall()
+    public void isCountWall()
     {
         if(world.get(this.getX() + direction.getX(), this.getY() + direction.getY()) instanceof Wall)
         {
@@ -70,7 +70,7 @@ public class Bullet extends Thing implements Runnable
             }
         }
     }
-    private boolean isCountCreature()
+    public boolean isCountCreature()
     {
         if(world.get(this.getX() + direction.getX(), this.getY() + direction.getY()) instanceof Tank)
         {

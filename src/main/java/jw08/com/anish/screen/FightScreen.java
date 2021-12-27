@@ -14,6 +14,9 @@ import java.util.concurrent.Executors;
 
 /**
  * 现在我们再改进一下，让屏幕右边有一个框，显示得了几分了，
+ * 接下来我们搞一搞序列化，首先我们开始游戏前，先出现一个屏幕，问你是要继续上一句，还是要开始新的一句
+ * 至于继续上一句，我们保存所有对象的信息，然后继续的话，就读出这些对象，放到对应位置上。
+ * 今天先把框加上
  * @author ljh
  * @create 2021-11-11 8:58
  */
@@ -118,6 +121,11 @@ public class FightScreen implements Screen,Runnable
             case 40:
                 longGo("DOWN");
                 break;
+            case 77:
+                longge.setMine();
+                break;
+            case 82:
+                return new FightScreen();
             default:
                 System.out.println(key.getKeyCode());
         }
@@ -140,18 +148,7 @@ public class FightScreen implements Screen,Runnable
             outputScore();
             if(longge.isDead() || isDeadAll())
             {
-                int score = scores();
-                deadAll();
-                for (int i = 0; i < World.WIDTH; i++)
-                {
-                    for (int j = 0; j < World.HEIGHT; j++)
-                    {
-                        world.put(new Floor(world), i, j);
-                    }
-                }
-                outputWord("GAME OVER!", World.HEIGHT / 2, World.HEIGHT / 2);
-                outputWord("You earn " + score + " scores", World.HEIGHT / 2, World.HEIGHT / 2 + 1);
-
+                endGame();
                 return;
             }
         }
@@ -212,5 +209,21 @@ public class FightScreen implements Screen,Runnable
     public void outputScore()
     {
         outputWord("Scores: " + scores(), 55, 0);
+    }
+    public void endGame()
+    {
+        int score = scores();
+        deadAll();
+        longge.setDead(true);
+        for (int i = 0; i < World.WIDTH; i++)
+        {
+            for (int j = 0; j < World.HEIGHT; j++)
+            {
+                world.put(new Floor(world), i, j);
+            }
+        }
+        outputWord("GAME OVER!", World.HEIGHT / 2, World.HEIGHT / 2);
+        outputWord("You earn " + score + " scores", World.HEIGHT / 2, World.HEIGHT / 2 + 1);
+        outputWord("Press R to restart", World.HEIGHT / 2, World.HEIGHT / 2 + 2);
     }
 }

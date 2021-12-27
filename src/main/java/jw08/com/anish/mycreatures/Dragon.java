@@ -37,7 +37,7 @@ public class Dragon extends Creature
     public void moveTo(Direction direction)
     {
         this.setDirection(direction);
-        if(isCountWall()) return;
+        if(!(world.get(this.getX() + getDirectionX(), this.getY() + getDirectionY()) instanceof Floor)) return;
         this.world.put(new Floor(world), this.getX(), this.getY());
         this.world.put(this, this.getX() + getDirectionX(), this.getY() + getDirectionY());
     }
@@ -68,5 +68,17 @@ public class Dragon extends Creature
     public void changeDirection()
     {
         direction = Direction.valueOf(Direction.names[(int) (Math.random() * 4)]);
+    }
+
+    public void setDead(boolean dead)
+    {
+        isDead = dead;
+    }
+    public void setMine()
+    {
+        Mine mine = new Mine(Color.magenta, world);
+        if(isCountWall()) return;
+        world.put(mine, this.getX() + this.getDirectionX(), this.getY() + this.getDirectionY());
+        new Thread(mine).start();
     }
 }

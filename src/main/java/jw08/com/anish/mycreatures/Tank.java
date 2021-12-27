@@ -25,6 +25,11 @@ public class Tank extends Creature implements Runnable
         numOfBu = 10;
     }
 
+    public Direction getDirection()
+    {
+        return direction;
+    }
+
     public int getDirectionX()
     {
         return direction.getX();
@@ -42,7 +47,7 @@ public class Tank extends Creature implements Runnable
 
     public void comMoveTo()
     {
-        if(isCountWall() || isDead) return;
+        if(isDead || !(world.get(this.getX() + getDirectionX(), this.getY() + getDirectionY()) instanceof Floor)) return;
         this.world.put(new Floor(world), this.getX(), this.getY());
         this.world.put(this, this.getX() + getDirectionX(), this.getY() + getDirectionY());
     }
